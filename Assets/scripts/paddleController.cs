@@ -27,7 +27,7 @@ public class paddleController : MonoBehaviour {
 		if (attachedBall) {
 				
 			ballRidigbody = attachedBall.rigidbody;
-			ballRidigbody.position = transform.position + new Vector3(0,0.3f,0);
+			ballRidigbody.position = transform.position + new Vector3(0,0.5f,0);
 			if(Input.GetButtonDown("Jump")){
 				ballRidigbody.isKinematic = false;
 				ballRidigbody.AddForce(0,ballSpeed,0);
