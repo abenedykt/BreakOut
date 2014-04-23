@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Runtime.InteropServices;
+using UnityEngine;
 using System.Collections;
 
 public class paddleController : MonoBehaviour {
@@ -9,7 +11,7 @@ public class paddleController : MonoBehaviour {
 	float paddleWidth = 1.5f;
 
 	public float speed = 0.1f;
-	public float ballSpeed = 50;
+	public float ballSpeed = 100;
 	public GameObject ballPrefab;
 	public GameObject attachedBall = null;
 	public Rigidbody ballRidigbody;
@@ -17,6 +19,7 @@ public class paddleController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		MyoSdk.Initialize ();
 		spawnBall ();
 	}
 	
@@ -38,7 +41,8 @@ public class paddleController : MonoBehaviour {
 
 	void PaddleMovement ()
 	{
-		var horizontalMovemen = Input.GetAxis ("Horizontal");
+		//var horizontalMovemen = Input.GetAxis ("Horizontal");
+		var horizontalMovemen = GetFromMyo();
 		Debug.Log (horizontalMovemen);
 
 		if (horizontalMovemen != 0) {
@@ -53,6 +57,16 @@ public class paddleController : MonoBehaviour {
 			}
 		}
 	}
+
+	float GetFromMyo ()
+	{
+		float m_yaw = 0;
+		MyoSdk.GetYaw(out m_yaw, 0);
+
+		Debug.Log (m_yaw);
+		return m_yaw/25.0f;
+	}
+
 
 	void spawnBall(){
 		attachedBall = Instantiate (ballPrefab,transform.position + new Vector3(0,0.5f,0),Quaternion.identity) as GameObject;
